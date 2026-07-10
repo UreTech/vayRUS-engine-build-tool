@@ -1,0 +1,11 @@
+VER 100
+
+FILTER basic_filter
+
+INCEXT basic_filter ".cpp"
+EXCDIR basic_filter "/fart/bruh"
+
+LIST to_compile basic_filter "test_src"
+
+COMPILE++ compiled_out to_compile " "
+LINKX compiled_out "test_executable_out"

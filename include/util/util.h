@@ -1,0 +1,20 @@
+#ifndef util_H
+#define util_H
+
+#include <uVRB_config.h>
+#include <cstdint>
+
+struct command_output{
+    int return_code = -1;
+    string_list out;
+};
+
+string_list parse_with(std::string input, char seperator);
+
+string_list xparse_with(std::string input, char seperator, char bracket = '\"');
+
+std::string remove_chars(std::string input, std::string chrs);
+
+command_output run_command(const char* command);
+
+#endif
