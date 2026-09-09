@@ -8,10 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/vsProjects/uVRBuilder/src/efs.cpp" "CMakeFiles/uVRBuilder.dir/src/efs.cpp.obj" "gcc" "CMakeFiles/uVRBuilder.dir/src/efs.cpp.obj.d"
-  "D:/vsProjects/uVRBuilder/src/main.cpp" "CMakeFiles/uVRBuilder.dir/src/main.cpp.obj" "gcc" "CMakeFiles/uVRBuilder.dir/src/main.cpp.obj.d"
-  "D:/vsProjects/uVRBuilder/src/uVar.cpp" "CMakeFiles/uVRBuilder.dir/src/uVar.cpp.obj" "gcc" "CMakeFiles/uVRBuilder.dir/src/uVar.cpp.obj.d"
-  "D:/vsProjects/uVRBuilder/src/util.cpp" "CMakeFiles/uVRBuilder.dir/src/util.cpp.obj" "gcc" "CMakeFiles/uVRBuilder.dir/src/util.cpp.obj.d"
+  "/mnt/common_disk/vsProjects/uVRBuilder/src/efs.cpp" "CMakeFiles/uVRBuilder.dir/src/efs.cpp.o" "gcc" "CMakeFiles/uVRBuilder.dir/src/efs.cpp.o.d"
+  "/mnt/common_disk/vsProjects/uVRBuilder/src/main.cpp" "CMakeFiles/uVRBuilder.dir/src/main.cpp.o" "gcc" "CMakeFiles/uVRBuilder.dir/src/main.cpp.o.d"
+  "/mnt/common_disk/vsProjects/uVRBuilder/src/uVar.cpp" "CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o" "gcc" "CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o.d"
+  "/mnt/common_disk/vsProjects/uVRBuilder/src/util.cpp" "CMakeFiles/uVRBuilder.dir/src/util.cpp.o" "gcc" "CMakeFiles/uVRBuilder.dir/src/util.cpp.o.d"
+  "" "uVRBuilder" "gcc" "CMakeFiles/uVRBuilder.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

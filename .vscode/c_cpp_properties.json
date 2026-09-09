@@ -12,7 +12,8 @@
                 "_UNICODE"
             ],
             "cStandard": "c23",
-            "cppStandard": "c++26"
+            "cppStandard": "c++26",
+            "compilerPath": "/usr/bin/gcc"
         }
     ],
     "version": 4

@@ -3,9 +3,11 @@
 
 #include <cstdint>
 
-#define uVRB_version_str "uvrb1.0.0.XXXX-XXXX-XXXX-XXXX"
+#define uVRB_version_str "uvrb1.1.2 QV2"
 
-#define uVRB_version_number 100ULL
+#define uVRB_help_str "UreTech vayRUS Build Tool Command Line Arguments:\n COMMANDS:\n  |-> build: Start build with default build script \"uBuild.u\"\n  |-> help: Print this help message\n ARGUMENTS:\n  |-> -u [build_script.u]: Build script file\n  |-> --dd-uvar: Print uVar debug\n"
+
+#define uVRB_version_number 112ULL
 
 #define ONEBIT(n) (1ULL << n)
 
@@ -13,15 +15,15 @@
 #define MDBG(msg) std::cout << __FILE__ << ":" << __LINE__ << " --> \"" << msg << "\"\n";
 
 #ifdef _WIN32
-#define uVRB_host_version_str "uHOST.WIN32-000"
+#define uVRB_host_version_str "uHOST.WIN32"
 #elif _WIN64
-#define uVRB_host_version_str "uHOST.WIN64-000"
+#define uVRB_host_version_str "uHOST.WIN64"
 #elif __linux__
-#define uVRB_host_version_str "uHOST.LINUX-000"
+#define uVRB_host_version_str "uHOST.LINUX"
 #elif __ANDROID__
-#define uVRB_host_version_str "uHOST.ANDROID-000"
+#define uVRB_host_version_str "uHOST.ANDROID"
 #elif __uVRB_CUSTOM_HOST__
-#define uVRB_host_version_str "uHOST.CUSTOM-000"
+#define uVRB_host_version_str "uHOST.CUSTOM"
 #else
 #define uVRB_host_version_str "uHOST.UNDEFINED"
 #endif
@@ -43,6 +45,16 @@
 #define UEC_GPP_ERROR (103ULL)
 #define UED_GPP_ERROR "No g++ installation found or env variables are not set"
 #define GPP_ERROR() ERROR_REPORT(UEC_GPP_ERROR, UED_GPP_ERROR); exit(UEC_GPP_ERROR);
+
+/* NOTE: Cache errors are not critical so we are not exiting with error a code */
+
+#define UEC_UNKNOWN_CACHE_ERROR (200ULL)
+#define UED_UNKNOWN_CACHE_ERROR "An unknown cache error has occured. Maybe cache file is corrupted or not compatible with current version"
+#define UNKNOWN_CACHE_ERROR() ERROR_REPORT(UEC_UNKNOWN_CACHE_ERROR, UED_UNKNOWN_CACHE_ERROR);
+
+#define UEC_T0_CACHE_LINE_ERROR (201ULL)
+#define UED_T0_CACHE_LINE_ERROR "T0 cache line is corrupted or not compatible with current version"
+#define T0_CACHE_LINE_ERROR() ERROR_REPORT(UEC_T0_CACHE_LINE_ERROR, UED_T0_CACHE_LINE_ERROR);
 
 #define UEC_PROVIDED_FILE_ACCESS_ERROR (1000ULL)
 #define UED_PROVIDED_FILE_ACCESS_ERROR "Provided file access error"
@@ -92,7 +104,11 @@
 #define UED_uBScrpit_FILTER_ALREADY_DEFINED_ERROR "uBuild Script: Double FILTER definition is not allowed"
 #define uBScrpit_FILTER_ALREADY_DEFINED_ERROR() ERROR_REPORT(UEC_uBScrpit_FILTER_ALREADY_DEFINED_ERROR, UED_uBScrpit_FILTER_ALREADY_DEFINED_ERROR); exit(UEC_uBScrpit_FILTER_ALREADY_DEFINED_ERROR);
 
-#define UEC_uBScript_LIST_ALREADY_DEFINED_ERROR (2006ULL)
+#define UEC_uBScript_LIST_NOT_DEFINED_ERROR (2006ULL)
+#define UED_uBScript_LIST_NOT_DEFINED_ERROR "uBuild Script: LIST is not defined"
+#define uBScript_LIST_NOT_DEFINED_ERROR() ERROR_REPORT(UEC_uBScript_LIST_NOT_DEFINED_ERROR, UED_uBScript_LIST_NOT_DEFINED_ERROR); exit(UEC_uBScript_LIST_NOT_DEFINED_ERROR);
+
+#define UEC_uBScript_LIST_ALREADY_DEFINED_ERROR (2007ULL)
 #define UED_uBScript_LIST_ALREADY_DEFINED_ERROR "uBuild Script: Double LIST definition is not allowed"
 #define uBScript_LIST_ALREADY_DEFINED_ERROR() ERROR_REPORT(UEC_uBScript_LIST_ALREADY_DEFINED_ERROR, UED_uBScript_LIST_ALREADY_DEFINED_ERROR); exit(UEC_uBScript_LIST_ALREADY_DEFINED_ERROR);
 

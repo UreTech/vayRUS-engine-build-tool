@@ -5,8 +5,11 @@
 #include <vector>
 #include <uVRB_config.h>
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
 
 Buffer read_file(const char* path);
+void write_file(const char* path, Buffer data);
 
 class filter{
 public:
@@ -23,5 +26,9 @@ std::string get_file_relative_path(std::string path);
 
 std::string pretty_string_list(string_list list);
 std::string unpretty_string_list(string_list list);
+
+typedef std::time_t file_time;
+
+file_time get_file_last_update(std::string path);
 
 #endif

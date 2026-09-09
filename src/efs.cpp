@@ -5,14 +5,16 @@
 extern std::string working_folder; // from main.cpp
 
 Buffer read_file(const char* path){
-    std::string full_path = working_folder + "/" + path;
-    std::ifstream file(full_path, std::ios::binary | std::ios::ate);
+    std::ifstream file(path, std::ios::binary | std::ios::ate);
 
     Buffer result;
     result.ptr = nullptr;
     result.size = 0;
 
-    if (!file) return result;
+        if (!file){
+        std::cout << "file read error!\n";
+        return result;
+    }
 
     result.size = static_cast<size_t>(file.tellg());
     result.ptr = malloc(result.size);
@@ -21,6 +23,17 @@ Buffer read_file(const char* path){
     file.read((char*)result.ptr, result.size);
 
     return result;
+}
+
+void write_file(const char* path, Buffer data){
+    std::ofstream file(path, std::ios::binary);
+
+    if (!file){
+        std::cout << "file write error!\n";
+        return;
+    }
+
+    file.write((char*)data.ptr, data.size);
 }
 
 // helpers
@@ -145,4 +158,12 @@ std::string unpretty_string_list(string_list list){
         result.pop_back();
     }
     return result;
+}
+
+file_time get_file_last_update(std::string path){
+    auto ftime = std::filesystem::last_write_time(path);
+
+    auto system_time = std::chrono::time_point_cast<std::chrono::system_clock::duration>(ftime - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now());
+
+    return std::chrono::system_clock::to_time_t(system_time);
 }
