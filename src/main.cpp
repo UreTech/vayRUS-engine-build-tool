@@ -96,10 +96,11 @@ bool is_build_cache_line_t0_valid(build_cache_t0* cache, std::string in_file_pat
 
             for(size_t j = 0; j < line.d.dependencies.size(); j++){
                 if(get_file_last_update(line.d.dependencies[j]) > get_file_last_update(line.out_file_path)){
+                    std::cout << "Dependency \"" << line.d.dependencies[j] << "\" is newer than output file \"" << line.out_file_path << "\"\n";
                     return false;
                 }
             }
-
+            
             return !(get_file_last_update(line.in_file_path) > get_file_last_update(line.out_file_path));
         }
     }
@@ -303,16 +304,20 @@ void _start_build_(std::string build_script){
                     // read dependencies
                     filter dependency_file_filter;
                     dependency_file_filter.included_extensions.push_back(".d");
-                    string_list dependency_files = list_sub_files_with_filter("build/objects/", dependency_file_filter);
+                    try{
+                        string_list dependency_files = list_sub_files_with_filter("build/objects/", dependency_file_filter);
 
-                    for(size_t j = 0; j < dependency_files.size(); j++){
-                        DependencyFile d = parse_dependency_file(dependency_files[j]);
+                        for(size_t j = 0; j < dependency_files.size(); j++){
+                            DependencyFile d = parse_dependency_file(dependency_files[j]);
 
-                        for(size_t k = 0; k < build_cache.size(); k++){
-                            if(build_cache[k].in_file_path == d.target){
-                               build_cache[k].d = d; // set dependency
+                            for(size_t k = 0; k < build_cache.size(); k++){
+                                if(build_cache[k].out_file_path == d.target){
+                                   build_cache[k].d = d; // set dependency
+                                }
                             }
                         }
+                    }catch(std::exception &e){
+                        std::cout << "Can not read dependency files: \"" << e.what() << "\" at line: " << i + 1 << "\n";
                     }
 
                     // compare change times & dependencies with cache

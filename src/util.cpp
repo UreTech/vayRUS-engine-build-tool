@@ -93,13 +93,16 @@ command_output run_command(const char* command){
 
     return result;
 }
-
 DependencyFile parse_dependency_file(const std::string& path)
 {
-    std::ifstream file(path);
     DependencyFile result;
 
-    if (!file) return result;
+    std::ifstream file(path);
+    if (!file)
+    {
+        std::cout << ".d file read error!\n";
+        return result;
+    }
 
     std::string text(
         (std::istreambuf_iterator<char>(file)),
@@ -107,17 +110,12 @@ DependencyFile parse_dependency_file(const std::string& path)
     );
 
     std::string normalized;
+    normalized.reserve(text.size());
 
     for (size_t i = 0; i < text.size(); ++i)
     {
         if (text[i] == '\r')
-        {
-            if (i + 1 < text.size() && text[i + 1] == '\n')
-                continue;
-
-            normalized += '\n';
             continue;
-        }
 
         normalized += text[i];
     }
@@ -133,144 +131,96 @@ DependencyFile parse_dependency_file(const std::string& path)
         {
             joined += ' ';
             ++i;
-            continue;
-        }
-
-        joined += normalized[i];
-    }
-
-    std::string rule;
-    std::vector<std::string> rules;
-
-    for (char c : joined)
-    {
-        if (c == '\n')
-        {
-            if (!rule.empty())
-            {
-                rules.push_back(rule);
-                rule.clear();
-            }
         }
         else
         {
-            rule += c;
+            joined += normalized[i];
         }
     }
 
-    if (!rule.empty())
-        rules.push_back(rule);
+    size_t colon = std::string::npos;
+    bool escaped = false;
 
-    for (const std::string& r : rules)
+    for (size_t i = 0; i < joined.size(); ++i)
     {
-        size_t colon = std::string::npos;
-
-        bool escaped = false;
-
-        for (size_t i = 0; i < r.size(); ++i)
-        {
-            if (escaped)
-            {
-                escaped = false;
-                continue;
-            }
-
-            if (r[i] == '\\')
-            {
-                escaped = true;
-                continue;
-            }
-
-            if (r[i] == ':')
-            {
-                colon = i;
-                break;
-            }
-        }
-
-        if (colon == std::string::npos)
-            continue;
-
-        std::string target = r.substr(0, colon);
-        std::string deps   = r.substr(colon + 1);
-
-        std::vector<std::string> tokens;
-        std::string current;
-
-        escaped = false;
-
-        for (char c : deps)
-        {
-            if (escaped)
-            {
-                current += c;
-                escaped = false;
-                continue;
-            }
-
-            if (c == '\\')
-            {
-                escaped = true;
-                continue;
-            }
-
-            if (c == ' ' || c == '\t')
-            {
-                if (!current.empty())
-                {
-                    tokens.push_back(current);
-                    current.clear();
-                }
-
-                continue;
-            }
-
-            current += c;
-        }
+        char c = joined[i];
 
         if (escaped)
-            current += '\\';
-
-        if (!current.empty())
-            tokens.push_back(current);
-
-        if (tokens.empty())
-            continue;
-
-        result.target = target;
-
         {
-            std::string decoded;
             escaped = false;
-
-            for (char c : result.target)
-            {
-                if (escaped)
-                {
-                    decoded += c;
-                    escaped = false;
-                    continue;
-                }
-
-                if (c == '\\')
-                {
-                    escaped = true;
-                    continue;
-                }
-
-                decoded += c;
-            }
-
-            if (escaped)
-                decoded += '\\';
-
-            result.target = decoded;
+            continue;
         }
 
-        result.dependencies = std::move(tokens);
+        if (c == '\\')
+        {
+            escaped = true;
+            continue;
+        }
 
-        break;
+        if (c == ':')
+        {
+            colon = i;
+            break;
+        }
     }
+
+    if (colon == std::string::npos)
+    {
+        std::cout << "No ':' found!\n";
+        return result;
+    }
+
+    result.target = joined.substr(0, colon);
+
+    while (!result.target.empty() &&
+           std::isspace(static_cast<unsigned char>(result.target.back())))
+    {
+        result.target.pop_back();
+    }
+
+    std::string deps = joined.substr(colon + 1);
+
+    std::vector<std::string> tokens;
+    std::string current;
+
+    escaped = false;
+
+    for (char c : deps)
+    {
+        if (escaped)
+        {
+            current += c;
+            escaped = false;
+            continue;
+        }
+
+        if (c == '\\')
+        {
+            escaped = true;
+            continue;
+        }
+
+        if (c == ' ' || c == '\t' || c == '\n')
+        {
+            if (!current.empty())
+            {
+                tokens.push_back(current);
+                current.clear();
+            }
+
+            continue;
+        }
+
+        current += c;
+    }
+
+    if (escaped)
+        current += '\\';
+
+    if (!current.empty())
+        tokens.push_back(current);
+
+    result.dependencies = std::move(tokens);
 
     return result;
 }
