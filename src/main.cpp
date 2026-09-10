@@ -370,7 +370,7 @@ void _start_build_(std::string build_script){
                     std::string command = "g++ -c \"" + lists[list_index].list[j] + "\" -o \"" + working_folder + "/build/objects/" + get_file_name(lists[list_index].list[j]) + ".o\" " + parsed_line[3]; // 3th argument is other arguments
                     command_output gpp_compile_out = run_command(command.c_str());
 
-                    std::cout << "Compile command: " << command << "\n";
+                    std::cout << "Compiling: \"" << lists[list_index].list[j] << "\"...\n";
 
                     if(gpp_compile_out.return_code != 0){
                         std::cout << "g++ return code: " << gpp_compile_out.return_code << "\n" << pretty_string_list(gpp_compile_out.out) << "\n";
@@ -427,12 +427,14 @@ void _start_build_(std::string build_script){
             std::string command = "g++ " + unpretty_string_list(lists[list_index].list) + " -o \"" + working_folder + "/build/" + parsed_line[2] + "\" " + parsed_line[3];
             command_output ld_link_out = run_command(command.c_str());
 
-            std::cout << "Link command: " << command << "\n";
+            std::cout << "Linking...\n";
 
             if(ld_link_out.return_code != 0){
                 std::cout << "ld return code: " << ld_link_out.return_code << "\n" << pretty_string_list(ld_link_out.out) << "\n";
                 LINKER_ERROR();
             }
+
+            std::cout << "Linked!\n";
 
         }else{
             std::cout << "Unknown command \"" << parsed_line[0] << "\" at line: " << i + 1 << "\n";

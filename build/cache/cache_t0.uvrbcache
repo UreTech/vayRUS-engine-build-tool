@@ -1,0 +1,4 @@
+"/mnt/common_disk/vsProjects/uVRBuilder/build/objects/efs.o" "/mnt/common_disk/vsProjects/uVRBuilder/src/efs.cpp"
+"/mnt/common_disk/vsProjects/uVRBuilder/build/objects/main.o" "/mnt/common_disk/vsProjects/uVRBuilder/src/main.cpp"
+"/mnt/common_disk/vsProjects/uVRBuilder/build/objects/util.o" "/mnt/common_disk/vsProjects/uVRBuilder/src/util.cpp"
+"/mnt/common_disk/vsProjects/uVRBuilder/build/objects/uVar.o" "/mnt/common_disk/vsProjects/uVRBuilder/src/uVar.cpp"

@@ -1,0 +1,13 @@
+VER 112
+
+FILTER basic_filter
+
+INCEXT basic_filter ".cpp"
+
+LIST to_compile basic_filter "/src"
+
+KEEP changed to_compile
+
+COMPILE++ compiled_out to_compile " -MMD -I include/ -I src/ "
+LINKX compiled_out "uVRBuilder" " "
+

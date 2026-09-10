@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/mnt/common_disk/vsProjects/uVRBuilder/build",
+  "command": "/usr/bin/g++  -I/mnt/common_disk/vsProjects/uVRBuilder/include -g -std=c++20 -o CMakeFiles/uVRBuilder.dir/src/efs.cpp.o -c /mnt/common_disk/vsProjects/uVRBuilder/src/efs.cpp",
+  "file": "/mnt/common_disk/vsProjects/uVRBuilder/src/efs.cpp",
+  "output": "CMakeFiles/uVRBuilder.dir/src/efs.cpp.o"
+},
+{
+  "directory": "/mnt/common_disk/vsProjects/uVRBuilder/build",
+  "command": "/usr/bin/g++  -I/mnt/common_disk/vsProjects/uVRBuilder/include -g -std=c++20 -o CMakeFiles/uVRBuilder.dir/src/main.cpp.o -c /mnt/common_disk/vsProjects/uVRBuilder/src/main.cpp",
+  "file": "/mnt/common_disk/vsProjects/uVRBuilder/src/main.cpp",
+  "output": "CMakeFiles/uVRBuilder.dir/src/main.cpp.o"
+},
+{
+  "directory": "/mnt/common_disk/vsProjects/uVRBuilder/build",
+  "command": "/usr/bin/g++  -I/mnt/common_disk/vsProjects/uVRBuilder/include -g -std=c++20 -o CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o -c /mnt/common_disk/vsProjects/uVRBuilder/src/uVar.cpp",
+  "file": "/mnt/common_disk/vsProjects/uVRBuilder/src/uVar.cpp",
+  "output": "CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o"
+},
+{
+  "directory": "/mnt/common_disk/vsProjects/uVRBuilder/build",
+  "command": "/usr/bin/g++  -I/mnt/common_disk/vsProjects/uVRBuilder/include -g -std=c++20 -o CMakeFiles/uVRBuilder.dir/src/util.cpp.o -c /mnt/common_disk/vsProjects/uVRBuilder/src/util.cpp",
+  "file": "/mnt/common_disk/vsProjects/uVRBuilder/src/util.cpp",
+  "output": "CMakeFiles/uVRBuilder.dir/src/util.cpp.o"
+}
+]
