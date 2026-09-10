@@ -177,4 +177,8 @@ CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o: \
  /usr/include/c++/15/bits/basic_ios.tcc \
  /usr/include/c++/15/bits/ostream.tcc /usr/include/c++/15/istream \
  /usr/include/c++/15/bits/istream.tcc \
- /mnt/common_disk/vsProjects/uVRBuilder/include/util/util.h
+ /mnt/common_disk/vsProjects/uVRBuilder/include/util/util.h \
+ /usr/include/c++/15/fstream /usr/include/c++/15/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/15/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/15/bits/c++io.h \
+ /usr/include/c++/15/bits/fstream.tcc

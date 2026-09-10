@@ -534,6 +534,7 @@ CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/bits/basic_string.tcc \
   /usr/include/c++/15/bits/char_traits.h \
   /usr/include/c++/15/bits/charconv.h \
+  /usr/include/c++/15/bits/codecvt.h \
   /usr/include/c++/15/bits/concept_check.h \
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
@@ -541,6 +542,7 @@ CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/bits/exception.h \
   /usr/include/c++/15/bits/exception_defines.h \
   /usr/include/c++/15/bits/exception_ptr.h \
+  /usr/include/c++/15/bits/fstream.tcc \
   /usr/include/c++/15/bits/functexcept.h \
   /usr/include/c++/15/bits/functional_hash.h \
   /usr/include/c++/15/bits/hash_bytes.h \
@@ -610,6 +612,7 @@ CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/ext/numeric_traits.h \
   /usr/include/c++/15/ext/string_conversions.h \
   /usr/include/c++/15/ext/type_traits.h \
+  /usr/include/c++/15/fstream \
   /usr/include/c++/15/initializer_list \
   /usr/include/c++/15/ios \
   /usr/include/c++/15/iosfwd \
@@ -715,8 +718,10 @@ CMakeFiles/uVRBuilder.dir/src/uVar.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/c++/15/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++allocator.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++config.h \
+  /usr/include/x86_64-linux-gnu/c++/15/bits/c++io.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/cpu_defines.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/ctype_base.h \
@@ -755,6 +760,7 @@ CMakeFiles/uVRBuilder.dir/src/util.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/bits/basic_string.tcc \
   /usr/include/c++/15/bits/char_traits.h \
   /usr/include/c++/15/bits/charconv.h \
+  /usr/include/c++/15/bits/codecvt.h \
   /usr/include/c++/15/bits/concept_check.h \
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
@@ -762,6 +768,7 @@ CMakeFiles/uVRBuilder.dir/src/util.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/bits/exception.h \
   /usr/include/c++/15/bits/exception_defines.h \
   /usr/include/c++/15/bits/exception_ptr.h \
+  /usr/include/c++/15/bits/fstream.tcc \
   /usr/include/c++/15/bits/functexcept.h \
   /usr/include/c++/15/bits/functional_hash.h \
   /usr/include/c++/15/bits/hash_bytes.h \
@@ -831,6 +838,7 @@ CMakeFiles/uVRBuilder.dir/src/util.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/c++/15/ext/numeric_traits.h \
   /usr/include/c++/15/ext/string_conversions.h \
   /usr/include/c++/15/ext/type_traits.h \
+  /usr/include/c++/15/fstream \
   /usr/include/c++/15/initializer_list \
   /usr/include/c++/15/ios \
   /usr/include/c++/15/iosfwd \
@@ -936,8 +944,10 @@ CMakeFiles/uVRBuilder.dir/src/util.cpp.o: /mnt/common_disk/vsProjects/uVRBuilder
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/c++/15/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++allocator.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++config.h \
+  /usr/include/x86_64-linux-gnu/c++/15/bits/c++io.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/cpu_defines.h \
   /usr/include/x86_64-linux-gnu/c++/15/bits/ctype_base.h \

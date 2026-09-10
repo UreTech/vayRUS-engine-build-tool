@@ -24,6 +24,8 @@ struct list_var{
 struct build_cache_line_t0{
     std::string in_file_path = "";
     std::string out_file_path = "";
+
+    DependencyFile d; // filled by KEEP changed command
 };
 
 typedef std::vector<build_cache_line_t0> build_cache_t0;
@@ -91,6 +93,13 @@ bool is_build_cache_line_t0_valid(build_cache_t0* cache, std::string in_file_pat
     for(size_t i = 0; i < cache->size(); i++){
         if(cache->at(i).in_file_path == in_file_path){
             line = cache->at(i);
+
+            for(size_t j = 0; j < line.d.dependencies.size(); j++){
+                if(get_file_last_update(line.d.dependencies[j]) > get_file_last_update(line.out_file_path)){
+                    return false;
+                }
+            }
+
             return !(get_file_last_update(line.in_file_path) > get_file_last_update(line.out_file_path));
         }
     }
@@ -288,9 +297,25 @@ void _start_build_(std::string build_script){
                         uBScript_LIST_NOT_DEFINED_ERROR();
                     }
 
-                    // compare change times with cache
+                    // read cache
                     build_cache_t0 build_cache = read_build_cache_t0(working_folder +"/build/cache/cache_t0.uvrbcache");
 
+                    // read dependencies
+                    filter dependency_file_filter;
+                    dependency_file_filter.included_extensions.push_back(".d");
+                    string_list dependency_files = list_sub_files_with_filter("build/objects/", dependency_file_filter);
+
+                    for(size_t j = 0; j < dependency_files.size(); j++){
+                        DependencyFile d = parse_dependency_file(dependency_files[j]);
+
+                        for(size_t k = 0; k < build_cache.size(); k++){
+                            if(build_cache[k].in_file_path == d.target){
+                               build_cache[k].d = d; // set dependency
+                            }
+                        }
+                    }
+
+                    // compare change times & dependencies with cache
                     for(size_t j = 0; j < lists[list_index].list.size(); j++){
                         if(is_build_cache_line_t0_valid(&build_cache, lists[list_index].list[j])){
                             std::cout << "Skipping \"" << lists[list_index].list[j] << "\" (Not modified)\n";
@@ -298,6 +323,7 @@ void _start_build_(std::string build_script){
                             j--; // adjust index
                         }
                     }
+
                 }
             }
         }else if(parsed_line[0] == "COMPILE++"){
