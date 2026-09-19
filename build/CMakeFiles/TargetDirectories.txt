@@ -1,3 +1,0 @@
-/mnt/common_disk/vsProjects/uVRBuilder/build/CMakeFiles/uVRBuilder.dir
-/mnt/common_disk/vsProjects/uVRBuilder/build/CMakeFiles/edit_cache.dir
-/mnt/common_disk/vsProjects/uVRBuilder/build/CMakeFiles/rebuild_cache.dir

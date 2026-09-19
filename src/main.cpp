@@ -131,22 +131,6 @@ void _start_build_(std::string build_script){
     std::vector<filter_var> filters;
     std::vector<list_var> lists;
 
-    // check gcc exists
-    command_output gcc_out = run_command("gcc --version");
-
-    if(gcc_out.return_code != 0){
-        std::cout << "gcc return code: " << gcc_out.return_code << "\n" << pretty_string_list(gcc_out.out) << "\n";
-        GCC_ERROR();
-    }
-
-    // check gpp exists
-    command_output gpp_out = run_command("g++ --version");
-
-    if(gpp_out.return_code != 0){
-        std::cout << "g++ return code: " << gpp_out.return_code << "\n" << pretty_string_list(gpp_out.out) << "\n";
-        GPP_ERROR();
-    }
-
     for(size_t i = 0; i < lines.size(); i++){
         std::string line = lines[i];
         
@@ -157,6 +141,9 @@ void _start_build_(std::string build_script){
         }
 
         string_list parsed_line = xparse_with(line, ' ');
+
+        std::string custom_compiler;
+        std::string custom_linker;
 
         if(parsed_line[0] == "VER"){
             if(parsed_line.size() != 2){
@@ -173,6 +160,20 @@ void _start_build_(std::string build_script){
             if(uVRB_version_number < required_version){
                 std::cout << "Required version: " << required_version << " Current version: " << uVRB_version_number << "\n";
                 uBScript_REQUIRED_VERSION_IS_HIGHER_ERROR();
+            }
+        }else if(parsed_line[0] == "COMPILER"){
+            if(parsed_line.size() != 2){
+                std::cout << "Provided argument count mismatch at line: " << i + 1 << " (1 required, " << parsed_line.size() - 1 << " provided)\n";
+                uBScript_PROVIDED_ARGUMENT_COUNT_MISMATCH_ERROR();
+            }else{
+                custom_compiler = parsed_line[1];
+            }
+        }else if(parsed_line[0] == "LINKER"){
+            if(parsed_line.size() != 2){
+                std::cout << "Provided argument count mismatch at line: " << i + 1 << " (1 required, " << parsed_line.size() - 1 << " provided)\n";
+                uBScript_PROVIDED_ARGUMENT_COUNT_MISMATCH_ERROR();
+            }else{
+                custom_linker = parsed_line[1];
             }
         }else if(parsed_line[0] == "FILTER"){
             if(parsed_line.size() != 2){
@@ -331,7 +332,23 @@ void _start_build_(std::string build_script){
 
                 }
             }
-        }else if(parsed_line[0] == "COMPILE++"){
+        }else if(parsed_line[0] == "RUN"){
+             if(parsed_line.size() != 2){
+                std::cout << "Provided argument count mismatch at line: " << i + 1 << " (1 required, " << parsed_line.size() - 1 << " provided)\n";
+                uBScript_PROVIDED_ARGUMENT_COUNT_MISMATCH_ERROR();
+            }else{
+                command_output gpp_compile_out = run_command(parsed_line[1].c_str());
+
+                if(gpp_compile_out.return_code != 0){
+                    std::cout << "Custom command return code: " << gpp_compile_out.return_code << "\n" << pretty_string_list(gpp_compile_out.out) << "\n";
+                    CUSTOM_COMPILE_ERROR();
+                }
+            }
+        }else if(parsed_line[0] == "COMPILE++" || parsed_line[0] == "COMPILE"){
+            if(!custom_compiler.empty() && parsed_line[0] == "COMPILE++"){
+                uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR();
+            }
+
             if(parsed_line.size() != 4){
                 std::cout << "Provided argument count mismatch at line: " << i + 1 << " (3 required, " << parsed_line.size() - 1 << " provided)\n";
                 uBScript_PROVIDED_ARGUMENT_COUNT_MISMATCH_ERROR();
@@ -367,18 +384,24 @@ void _start_build_(std::string build_script){
                 build_cache_t0 build_cache = read_build_cache_t0(working_folder +"/build/cache/cache_t0.uvrbcache");
 
                 for(size_t j = 0; j < lists[list_index].list.size(); j++){
-                    std::string command = "g++ -c \"" + lists[list_index].list[j] + "\" -o \"" + working_folder + "/build/objects/" + get_file_name(lists[list_index].list[j]) + ".o\" " + parsed_line[3]; // 3th argument is other arguments
+                    std::string command = "";
+                    if(parsed_line[0] == "COMPILE++" || custom_compiler.empty()){
+                        command = "g++ -c \"" + lists[list_index].list[j] + "\" -o \"" + working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]) + "/" + get_file_name(lists[list_index].list[j]) + ".o\" " + parsed_line[3]; // 3th argument is other arguments
+                    }else{
+                        command = custom_compiler + " -c \"" + lists[list_index].list[j] + "\" -o \"" + working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]) + "/" + get_file_name(lists[list_index].list[j]) + ".o\" " + parsed_line[3]; // 3th argument is other arguments
+                    }
+                    std::filesystem::create_directories(working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]));
                     command_output gpp_compile_out = run_command(command.c_str());
 
                     std::cout << "Compiling: \"" << lists[list_index].list[j] << "\"...\n";
 
                     if(gpp_compile_out.return_code != 0){
-                        std::cout << "g++ return code: " << gpp_compile_out.return_code << "\n" << pretty_string_list(gpp_compile_out.out) << "\n";
+                        std::cout << "compiler return code: " << gpp_compile_out.return_code << "\n" << pretty_string_list(gpp_compile_out.out) << "\n";
                         GPP_COMPILE_ERROR();
                     }
 
                     // add to compiled list
-                    out_list.list.push_back(working_folder + "/build/objects/" + get_file_name(lists[list_index].list[j]) + ".o");
+                    out_list.list.push_back(working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]) + "/" + get_file_name(lists[list_index].list[j]) + ".o");
 
                     // update cache
                     update_build_cache_line_t0(&build_cache, lists[list_index].list[j], out_list.list[out_list.list.size() - 1]);
@@ -403,7 +426,11 @@ void _start_build_(std::string build_script){
                 write_build_cache_t0(&build_cache, working_folder +"/build/cache/cache_t0.uvrbcache");
 
             }
-        }else if(parsed_line[0] == "LINKX"){
+        }else if(parsed_line[0] == "LINKX" || parsed_line[0] == "LINK"){
+            if(!custom_linker.empty() && parsed_line[0] == "LINKX"){
+                uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR();
+            }
+
             if(parsed_line.size() != 4){
                 std::cout << "Provided argument count mismatch at line: " << i + 1 << " (3 required, " << parsed_line.size() - 1 << " provided)\n";
                 uBScript_PROVIDED_ARGUMENT_COUNT_MISMATCH_ERROR();
@@ -424,13 +451,18 @@ void _start_build_(std::string build_script){
                     uBScript_LIST_NOT_DEFINED_ERROR();
             }
 
-            std::string command = "g++ " + unpretty_string_list(lists[list_index].list) + " -o \"" + working_folder + "/build/" + parsed_line[2] + "\" " + parsed_line[3];
+            std::string command = "";
+            if(parsed_line[0] == "LINKX" || custom_linker.empty()){
+                command = "g++ " + unpretty_string_list(lists[list_index].list) + " -o \"" + working_folder + "/build/" + parsed_line[2] + "\" " + parsed_line[3];
+            }else{
+                command = custom_linker + " " + unpretty_string_list(lists[list_index].list) + " -o \"" + working_folder + "/build/" + parsed_line[2] + "\" " + parsed_line[3];
+            }
             command_output ld_link_out = run_command(command.c_str());
 
             std::cout << "Linking...\n";
 
             if(ld_link_out.return_code != 0){
-                std::cout << "ld return code: " << ld_link_out.return_code << "\n" << pretty_string_list(ld_link_out.out) << "\n";
+                std::cout << "linker return code: " << ld_link_out.return_code << "\n" << pretty_string_list(ld_link_out.out) << "\n";
                 LINKER_ERROR();
             }
 
@@ -516,10 +548,4 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Unknown command: \"" << root["vayRUS"]["Builder"]["const"]["command_line"]["argument"]["COMMAND"]["attachment1"].str_value << "\"\n";
     UNKNOWN_COMMAND_ERROR();
-
-    filter flt;
-    flt.included_extensions.push_back(".txt");
-
-    string_list test = list_sub_files_with_filter(root["vayRUS"]["Builder"]["const"]["command_line"]["argument"]["--sd"]["attachment0"].str_value.c_str(), flt);
-    std::cout << pretty_string_list(test);
 }

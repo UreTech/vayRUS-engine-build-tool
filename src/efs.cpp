@@ -1,6 +1,7 @@
 #include <efs/efs.h>
 #include <filesystem>
 #include <fstream>
+#include <unistd.h>
 
 extern std::string working_folder; // from main.cpp
 
@@ -72,6 +73,19 @@ std::string get_file_relative_path(std::string path){
     }
 
     return path;
+}
+
+std::string get_file_work_relative_path(std::string path){
+    char cwd[4096];
+
+    if (getcwd(cwd, sizeof(cwd)) == nullptr){
+        return "";
+    }
+
+    std::filesystem::path work_dir(cwd);
+    std::filesystem::path file_path(path);
+    std::filesystem::path relative = std::filesystem::relative(file_path.parent_path(), work_dir);
+    return relative.string();
 }
 
 bool check_filters(std::string path, filter filter_data){

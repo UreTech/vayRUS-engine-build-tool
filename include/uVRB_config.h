@@ -3,11 +3,11 @@
 
 #include <cstdint>
 
-#define uVRB_version_str "uvrb1.1.4 QV3"
+#define uVRB_version_str "uvrb1.2.0 QV4"
 
 #define uVRB_help_str "UreTech vayRUS Build Tool Command Line Arguments:\n COMMANDS:\n  |-> build: Start build with default build script \"uBuild.u\"\n  |-> help: Print this help message\n ARGUMENTS:\n  |-> -u [build_script.u]: Build script file\n  |-> --dd-uvar: Print uVar debug\n"
 
-#define uVRB_version_number 112ULL
+#define uVRB_version_number 120ULL
 
 #define ONEBIT(n) (1ULL << n)
 
@@ -76,6 +76,10 @@
 #define UED_GPP_COMPILE_ERROR "g++ compile failed"
 #define GPP_COMPILE_ERROR() ERROR_REPORT(UEC_GPP_COMPILE_ERROR, UED_GPP_COMPILE_ERROR); exit(UEC_GPP_COMPILE_ERROR);
 
+#define UEC_CUSTOM_COMPILE_ERROR (1005ULL)
+#define UED_CUSTOM_COMPILE_ERROR "custom compile failed"
+#define CUSTOM_COMPILE_ERROR() ERROR_REPORT(UEC_CUSTOM_COMPILE_ERROR, UED_CUSTOM_COMPILE_ERROR); exit(UEC_CUSTOM_COMPILE_ERROR);
+
 #define UEC_LINKER_ERROR (2001ULL)
 #define UED_LINKER_ERROR "Linking failed"
 #define LINKER_ERROR() ERROR_REPORT(UEC_LINKER_ERROR, UED_LINKER_ERROR); exit(UEC_LINKER_ERROR);
@@ -111,6 +115,14 @@
 #define UEC_uBScript_LIST_ALREADY_DEFINED_ERROR (2007ULL)
 #define UED_uBScript_LIST_ALREADY_DEFINED_ERROR "uBuild Script: Double LIST definition is not allowed"
 #define uBScript_LIST_ALREADY_DEFINED_ERROR() ERROR_REPORT(UEC_uBScript_LIST_ALREADY_DEFINED_ERROR, UED_uBScript_LIST_ALREADY_DEFINED_ERROR); exit(UEC_uBScript_LIST_ALREADY_DEFINED_ERROR);
+
+#define UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR (2008ULL)
+#define UED_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR "uBuild Script: Custom compiler is present but COMPILE++ called"
+#define uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR() ERROR_REPORT(UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR, UED_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR); exit(UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPP_CALLED_ERROR);
+
+#define UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR (2009ULL)
+#define UED_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR "uBuild Script: Custom linker is present but LINKX called"
+#define uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR() ERROR_REPORT(UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR, UED_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR); exit(UEC_uBScript_CUSTOM_COMPILER_PROVIDED_BUT_GPPL_CALLED_ERROR);
 
 // util
 struct Buffer{

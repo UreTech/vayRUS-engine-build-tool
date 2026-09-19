@@ -1,4 +1,7 @@
-VER 100
+VER 120
+
+COMPILER "g++"
+LINKER "g++"
 
 FILTER basic_filter
 
@@ -7,5 +10,7 @@ EXCDIR basic_filter "/fart/bruh"
 
 LIST to_compile basic_filter "test_src"
 
-COMPILE++ compiled_out to_compile " "
-LINKX compiled_out "test_executable_out"
+COMPILE compiled_out to_compile " "
+LINK compiled_out "test_executable_out" " "
+
+RUN "echo osurdum"

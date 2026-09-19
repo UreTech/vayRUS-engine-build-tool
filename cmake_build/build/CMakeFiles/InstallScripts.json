@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/mnt/common_disk/vsProjects/uVRBuilder/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
