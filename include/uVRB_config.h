@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#define uVRB_version_str "uvrb1.2.0 QV4"
+#define uVRB_version_str "uvrb1.2.1 QV4"
 
 #define uVRB_help_str "UreTech vayRUS Build Tool Command Line Arguments:\n COMMANDS:\n  |-> build: Start build with default build script \"uBuild.u\"\n  |-> help: Print this help message\n ARGUMENTS:\n  |-> -u [build_script.u]: Build script file\n  |-> --dd-uvar: Print uVar debug\n"
 

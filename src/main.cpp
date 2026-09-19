@@ -130,6 +130,9 @@ void _start_build_(std::string build_script){
 
     std::vector<filter_var> filters;
     std::vector<list_var> lists;
+        
+    std::string custom_compiler;
+    std::string custom_linker;
 
     for(size_t i = 0; i < lines.size(); i++){
         std::string line = lines[i];
@@ -141,9 +144,6 @@ void _start_build_(std::string build_script){
         }
 
         string_list parsed_line = xparse_with(line, ' ');
-
-        std::string custom_compiler;
-        std::string custom_linker;
 
         if(parsed_line[0] == "VER"){
             if(parsed_line.size() != 2){
@@ -390,6 +390,7 @@ void _start_build_(std::string build_script){
                     }else{
                         command = custom_compiler + " -c \"" + lists[list_index].list[j] + "\" -o \"" + working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]) + "/" + get_file_name(lists[list_index].list[j]) + ".o\" " + parsed_line[3]; // 3th argument is other arguments
                     }
+                    
                     std::filesystem::create_directories(working_folder + "/build/objects/" + get_file_work_relative_path(lists[list_index].list[j]));
                     command_output gpp_compile_out = run_command(command.c_str());
 
